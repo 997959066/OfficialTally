@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>收入记录</title>
+<script src="../../js/jquery-1.9.1.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/tally/incomeDetails.js"></script>
+<link rel="stylesheet" href="../../css/tally/incomeDetails.css">
+
+</head>
+ <body>
+
+		<div class="mainTally">
+		<div class="dayList">
+		<ul>
+		<li><span>收入来源 ：</span><input id="incomeSource" type="text"></li>
+			<li><span>年 ： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input id="incomeYear" type="text"></li>
+			<li><span>月 ： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input id="incomeMonth" type="text"></li>
+			<li><span>钱数 :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input id="incomeMoney" type="text"></li>
+		</ul>
+				 
+		</div>
+		<div class="selectConsumption">
+			&nbsp;&nbsp;&nbsp;<input class="save" type="button" value="鼠标保存"> 
+			<input class="find" type="button" value="查询明细消费">
+		</div>
+
+		<div id="startToendTimeDivId">
+			<label class="startToendTime"></label>
+		</div>
+		<div id="findDivId">
+			<table>
+				<thead>
+					<tr>
+						<th class="w40">序号</th>
+						<th class="w40">年</th>
+						<th class="w40">月</th>
+						<th class="w80">钱数</th>
+						<th class="w500">描述</th>
+						<th class="w80">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tbodyId">
+
+				</tbody>
+			</table>
+		</div>
+		<div class="tbodyIdsClass">
+			<table>
+				<tbody id="tbodyIds">
+				</tbody>
+			</table>
+		</div>
+		
+		</div>
+</body>
+</html>

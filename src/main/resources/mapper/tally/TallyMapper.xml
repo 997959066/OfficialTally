@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.tally.TallyMapper">
+
+	<resultMap type="cn.xiaoyu.entity.tally.Tally" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="createDate" column="createDate" />
+		<result property="used" column="used" />
+		<result property="howMuch" column="howMuch" />
+		<result property="typeName" column="typeName" />
+		<result property="userId" column="userId" />
+		<result property="type" column="type" />
+	</resultMap>
+
+	<sql id="tableName">
+		tally
+	</sql>
+
+	<!-- 增加 -->
+	<insert id="append" parameterType="cn.xiaoyu.entity.tally.Tally">
+		insert into
+		<include refid="tableName" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id > -1 ">
+				id,
+			</if>
+			createDate,
+			<if test="used != null and used != '' ">
+				used,
+			</if>
+			<if test="howMuch != null">
+				howMuch,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id > -1 ">
+				#{id},
+			</if>
+			
+		<choose>
+			<when test="createDate != null and createDate != '' ">
+				  #{createDate},
+			</when>
+			<otherwise>
+				now(),
+			</otherwise>
+		</choose>
+		
+			<if test="used != null and used != '' ">
+				#{used},
+			</if>
+			<if test="howMuch != null">
+				#{howMuch},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+		</trim>
+	</insert>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="map">
+		delete from
+		<include refid="tableName" />
+		where id=#{id} 
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</delete>
+	
+	<!-- 修改  -->
+	<update id="update" parameterType="cn.xiaoyu.entity.tally.Tally">
+		update
+		<include refid="tableName" />
+		<set>
+			<if test="id != null and id > -1 ">
+				id = #{id},
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				createDate = #{createDate},
+			</if>
+			<if test="used != null and used != '' ">
+				used = #{used},
+			</if>
+			<if test="howMuch != null and howMuch != '' ">
+				howMuch = #{howMuch},
+			</if>
+		</set>
+		where id=#{id} 		
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</update>
+
+ 	<!-- 一段时间数据 -->
+	<select id="theTotalAmount" parameterType="map" resultMap="BaseResultMap">
+		SELECT SUM(howMuch) as howMuch from tally WHERE 1=1
+		<if test="startTime != null and startTime != '' ">
+			and date_format(createDate,'%Y-%m-%d') &gt;= str_to_date(#{startTime},
+			'%Y-%m-%d')
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			and date_format(createDate,'%Y-%m-%d') &lt;= str_to_date(#{endTime},
+			'%Y-%m-%d')
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			and date_format(createDate,'%Y-%m-%d') &lt;= str_to_date(#{endTime},
+			'%Y-%m-%d')
+		</if>
+		<if test="used != null and used != '' ">
+			and used like concat('%',#{used},'%')
+		</if>
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</select>
+
+	<!-- 查询记账列表 -->
+	<!--  2018.12.24修改sql增加 消费的类型 关联表 consumetype-->
+	<select id="list" parameterType="map" resultMap="BaseResultMap">
+		select t.*,c.typeName from
+		tally  t left JOIN  consumetype c on t.type=c.id WHERE 1=1
+		<if test="id != null and id > -1 ">
+			and t.id = #{id}
+		</if>
+		<if test="userId != null and userId > -1 ">
+			and t.userId = #{userId}
+		</if>
+		<if test="createDate != null and createDate != '' ">
+		 AND t.createDate  &gt;= CONCAT( #{createDate}, ' 00:00:00' ) 
+	     AND t.createDate &lt;= CONCAT( #{createDate}, ' 23:59:59' ) 
+		</if>
+		<if test="used != null and used != '' ">
+			and t.used like concat('%',#{used},'%')
+		</if>
+		<if test="howMuch != null and howMuch != '' ">
+			and t.howMuch = #{howMuch}
+		</if>
+		<if test="userId != null">
+			and t.userId  =#{userId}
+		</if>
+		<if test="type != null">
+			and t.type  =#{type}
+		</if>
+		<if test="startDate != null and endDate != '' ">
+		 AND t.createDate  &gt;= CONCAT( #{startDate}, ' 00:00:00' ) 
+	     AND t.createDate &lt;= CONCAT( #{endDate}, ' 23:59:59' ) 
+		</if>
+		order by t.createDate desc
+	</select>
+	<!-- 2018.12.25查询一段时间分类钱数 -->
+	<select id="categoricalConsumption" parameterType="map" resultMap="BaseResultMap">
+		 SELECT
+			CONVERT ( SUM( t.howMuch ), DECIMAL ( 12, 2 )  )
+			 AS howMuch,
+			t.type,
+			c.typeName 
+		FROM
+			tally t
+			LEFT JOIN consumetype c ON t.type = c.id 
+		WHERE
+			 t.createDate  &gt;= CONCAT( #{startTime}, ' 00:00:00' ) 
+	      and t.createDate &lt;= CONCAT( #{endTime}, ' 23:59:59' ) 
+	      and t.userId=#{userId}
+	    <if test="type != null">
+			and t.type  =#{type}
+		</if>
+		GROUP BY
+			t.type , c.typeName 
+		ORDER BY
+			t.type ASC
+	</select>
+</mapper>
+

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.tally.SummaryMapper">
+
+	<resultMap type="cn.xiaoyu.entity.tally.Summary" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="countDate" column="countDate" />
+		<result property="expense" column="expense" />
+		<result property="createDate" column="createDate" />
+		<result property="updateDate" column="updateDate" />
+		<result property="userId" column="userId" />
+	</resultMap>
+
+	<sql id="tableName">
+		summary
+	</sql>
+
+	<!-- 时间段 内的消费总钱数 -->
+	<select id="theDailySum" parameterType="map" resultType="java.util.HashMap">
+
+		SELECT #{startTime} as createDate,SUM(howMuch) as
+		theDailyConsumptionSum from tally
+		WHERE 1=1
+		<if test="startTime != null and startTime != '' ">
+			and date_format(createDate,'%Y-%m-%d') &gt;=
+			str_to_date(#{startTime},
+			'%Y-%m-%d')
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			and date_format(createDate,'%Y-%m-%d') &lt;=
+			str_to_date(#{endTime},
+			'%Y-%m-%d')
+		</if>
+		<if test="userId != null">
+				and userId=#{userId}
+		</if>
+	</select>
+	
+	<!-- 增加 -->
+	<insert id="append" parameterType="cn.xiaoyu.entity.tally.Summary">
+		insert into
+		<include refid="tableName" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id > -1 ">
+				id,
+			</if>
+			<if test="countDate != null  ">
+				countDate,
+			</if>
+			<if test="expense != null  ">
+				expense,
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				createDate,
+			</if>
+			<if test="updateDate != null and updateDate != '' ">
+				updateDate,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+		</trim>
+		<trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id > -1 ">
+				#{id},
+			</if>
+			<if test="countDate != null  ">
+				#{countDate},
+			</if>
+			<if test="expense != null  ">
+				#{expense},
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				#{createDate},
+			</if>
+			<if test="updateDate != null and updateDate != '' ">
+				#{updateDate},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+		</trim>
+	</insert>
+
+	<delete id="delete" parameterType="map">
+		delete from
+		<include refid="tableName" />
+		where id=#{id}
+	</delete>
+
+	<update id="update" parameterType="cn.xiaoyu.entity.tally.Summary">
+		update
+		<include refid="tableName" />
+		<set>
+			<if test="id != null and id > -1 ">
+				id = #{id},
+			</if>
+			<if test="countDate != null  ">
+				countDate = #{countDate},
+			</if>
+			<if test="expense != null  ">
+				expense = #{expense},
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				createDate = #{createDate},
+			</if>
+			updateDate = now()
+		</set>
+		where id=#{id}
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</update>
+
+
+	<select id="get" parameterType="map" resultMap="BaseResultMap">
+		select * from
+		<include refid="tableName" />
+		where 1=1
+		<if test="countDate != null  ">
+			and countDate = #{countDate}
+		</if>
+		<if test="expense != null  ">
+			and expense = #{expense}
+		</if>
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</select>
+
+	<!-- 月度综合报表（收入月支出，月平均消费） -->
+	<select id="monthlyComprehensive" parameterType="map"
+		resultType="java.util.HashMap">
+		SELECT s.month,i.money,s.spending,s.average
+		FROM
+		(
+		SELECT month
+		,
+		( SELECT CONVERT ( SUM( money ), DECIMAL ( 12, 2 ) ) ) AS money
+		FROM
+		income
+		WHERE
+		YEAR = ( SELECT YEAR ( #{time} ) )
+		AND MONTH = ( SELECT MONTH ( #{time} ) )
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+		) i
+		RIGHT JOIN (
+		SELECT
+		( SELECT MONTH ( #{time} ) ) AS MONTH,
+		SUM( expense ) AS spending,
+		(
+		SELECT CONVERT
+		( SUM( expense ) / ( SELECT DAY ( LAST_DAY( #{time} ) ) ), DECIMAL (
+		12, 2 ) )
+		) AS average
+		FROM
+		summary
+		WHERE
+	<![CDATA[ 	DATE_FORMAT(#{time}, '%Y-%m-%d') <=   DATE_FORMAT(countDate, '%Y-%m-%d')  ]]>  
+	<![CDATA[	AND DATE_FORMAT(countDate, '%Y-%m-%d')  <= ( SELECT LAST_DAY( DATE_FORMAT(#{time}, '%Y-%m-%d') ) ) ]]>  
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+		) s ON s.MONTH = i.MONTH 
+		<!-- 
+		SELECT LAST_DAY('2018-06-01') as lastDate 月最后一天 
+		     SELECT day(LAST_DAY('2008-06-01'))  获取月的天数 
+		     select convert(10000.32323,decimal(12,4)); 保留小数 
+		     select year(CURRENT_DATE) AS 年 ;
+             select month(CURRENT_DATE) AS 月;
+		     -->
+	</select>
+	<!-- 按年查询每日数据报表统计 -->
+	  <select id="listByCountDate" parameterType="map" resultMap="BaseResultMap">
+		select * from summary where  
+		<![CDATA[ 	DATE_FORMAT(#{time}, '%Y-%m-%d') <=   DATE_FORMAT(countDate, '%Y-%m-%d')  ]]>  
+	   <![CDATA[	AND DATE_FORMAT(countDate, '%Y-%m-%d')  <=  (SELECT concat(YEAR(  DATE_FORMAT( #{time}, '%Y-%m-%d')),'-12-31')) ]]> 
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+		order by countDate asc
+	</select>
+	<!-- 按年查询每日数据报表统计 -->
+	  <select id="timeSum" parameterType="map" resultType="decimal">
+		SELECT SUM(expense) as sum FROM summary where
+		<![CDATA[ 	DATE_FORMAT(#{startTime}, '%Y-%m-%d') <=   DATE_FORMAT(countDate, '%Y-%m-%d')  ]]>  
+	   <![CDATA[	AND DATE_FORMAT(countDate, '%Y-%m-%d')  <=    DATE_FORMAT(#{endTime}, '%Y-%m-%d') ]]> 
+	   		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</select>
+	<!-- 时间端 数据集合 -->
+	<select  id="list" parameterType="map" resultMap="BaseResultMap">
+	select * from summary where 
+	<![CDATA[ 	DATE_FORMAT(#{startTime}, '%Y-%m-%d') <=   DATE_FORMAT(countDate, '%Y-%m-%d')  ]]>  
+	  <![CDATA[	AND DATE_FORMAT(countDate, '%Y-%m-%d')  <=    DATE_FORMAT(#{endTime}, '%Y-%m-%d') ]]> 
+	  	<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+	</select>
+</mapper>
+

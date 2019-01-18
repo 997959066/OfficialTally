@@ -1,0 +1,310 @@
+#findDivId{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:0px;
+        top:166px;
+        z-inde:111111;
+        width:1112px;
+        height:16px;
+       /*  background:red; */
+}
+.mainTally{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:133px;
+        top:-18px;
+        z-inde:111111;
+        width:255px;
+        height:36px;
+       /*  background:red; */
+}
+.dayList{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:270px;
+        top:12px;
+        z-inde:111111;
+        width:255px;
+        height:36px;
+       /*  background:red; */
+}
+.tbodyIdsClass{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:425px;
+        top:107px;
+        z-inde:111111;
+        width:255px;
+        height:36px;
+       /*  background:red; */
+}
+.theTotalAmountButtonCss{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:629px;
+        top:10px;
+        z-inde:111111;
+        width:385px;
+        height:36px;
+       /*  background:red; */
+}
+.selectConsumption{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:182px;
+        top:116px;
+        z-inde:111111;
+        width:250px;
+        height:16px;
+       /*  background:red; */
+}
+.select{
+        position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+        left:182px;
+        top:116px;
+        z-inde:111111;
+        width:250px;
+        height:16px;
+       /*  background:red; */
+}
+.w40{
+    width: 40px;
+}
+.w70{
+    width: 70px;
+}
+.w80{
+    width: 80px;
+    text-align:center;
+    vertical-align:middle;
+}
+.w160{
+    width: 160px;
+}
+.w180{
+    width: 160px;
+}
+.w500{
+    width: 160px;
+    text-align:center;vertical-align:middle;
+}
+
+.upInput{
+    width: 80px;
+    border:none;
+	background: #fff;
+	font-size:14px;
+	color: #4f6b72;
+	text-align:center;
+}
+.upInput250{
+    width: 250px;
+    border:none;
+	background: #fff;
+	font-size:14px;
+	color: #4f6b72;
+}
+.upInput550{
+    width: 550px;
+    border:none;
+	background: #fff;
+	font-size:14px;
+	color: #4f6b72;
+	text-align:center;
+}
+.find{
+    width: 90px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+    left:368px;
+    top:107px;
+}
+.execlUpload{
+    width: 90px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/blue.png) 0 0 no-repeat;
+    border: none;
+}
+.theTotalAmount{
+    width: 76px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+}
+.pageX{
+    width: 76px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+}
+.pageXX{
+    width: 76px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+}
+.theMonthlyConsumption{
+    width: 76px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+}
+.theDailyConsumption{
+    width: 76px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+}
+.exportDetailsOfConsumption{
+    width: 90px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/hong.png) 0 0 no-repeat;
+    border: none;
+}
+.exportDailyConsumption{
+    width: 90px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/hong.png) 0 0 no-repeat;
+    border: none;
+}
+.yearAllExport{
+	left:0px;
+    top:0px;
+    width: 105px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/hong.png) 0 0 no-repeat;
+    border: none;
+}
+.save{
+    width: 118px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/green.png) 0 0 no-repeat;
+    border: none;
+            left:0px;
+        top:147px;
+}
+.clear{
+    width: 81px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/blue.png) 0 0 no-repeat;
+    border: none;
+}
+.gengduogongneng{
+    width: 81px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/blue.png) 0 0 no-repeat;
+    border: none;
+}
+.clear2{
+    width: 76px;
+    height: 30px;
+    color: #fff;
+    background: url(../../images/tally/blue.png) 0 0 no-repeat;
+    border: none;
+}
+.update{
+    background: url(../../images/tally/editor.png) 0 0 no-repeat;
+           width: 20px;
+    height: 22px;
+}
+.del{
+    background: url(../../images/tally/del.png) 0 0 no-repeat;
+       width: 20px;
+    height: 22px;
+}
+
+th {
+	font: bold 15px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA no-repeat;
+}
+td {common
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	font-size:14px;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+td.alt {
+	background: #F5FAFA;
+	color: #797268;
+}
+th.spec,td.spec {
+	border-left: 1px solid #C1DAD7;
+} 
+
+
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.dropbtn {/* 控制选择框 */
+    background-color: #eb0b0bf2;
+    color: white;
+    padding: -2px;
+    font-size: -1px;
+    border: none;
+    cursor: pointer;
+    position:absolute; /* 绝对定位，这个是随页面走动的，可以换成fixed，不随页面走动。 */
+    left: 176px;
+    top: -96px;
+    z-inde:111111;
+    width: 68px;
+    height: 21px;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {/* 控制下拉宽度 */
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 60px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}

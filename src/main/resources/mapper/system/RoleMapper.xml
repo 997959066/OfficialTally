@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.system.RoleMapper">
+
+<resultMap type="cn.xiaoyu.entity.system.Role" id="BaseResultMap">
+    <id property="id" jdbcType ="INTEGER" column="id"/>
+    <result property="roleName" column="roleName"/>
+    <result property="createDate" column="createDate"/>
+    <result property="createUser" column="createUser"/>
+    <result property="updateDate" column="updateDate"/>
+    <result property="updateUser" column="updateUser"/>
+    <result property="functionName" column="functionName"/>
+</resultMap>
+
+<sql id="tableName">
+    role
+</sql>
+
+	<insert id="appendRoleFunction" parameterType="map">
+		Insert Into rolefunction(roleId, functionId) values
+		<foreach collection="functionIdList" item="item" index="index"
+			separator=",">
+			(#{roleId},#{item})
+		</foreach>
+	</insert>
+
+<!-- 查询用户不在的角色 -->
+<select id="listRoleByUserId" parameterType="map" resultMap="BaseResultMap">
+	SELECT id,roleName from role WHERE id not in
+    (SELECT  r.id as roleId FROM `user`
+	 u inner JOIN userrole ur on ur.userId=u.id
+	inner join role r on r.id=ur.roleId and u.id=#{userId})
+</select>
+
+
+
+<insert id="append" parameterType="cn.xiaoyu.entity.system.Role">
+    insert into <include refid="tableName" />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null and id > -1 ">
+            id,
+        </if>
+        <if test="roleName != null and roleName != '' ">
+            roleName,
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            createDate,
+        </if>
+        <if test="createUser != null and createUser > -1 ">
+            createUser,
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            updateDate,
+        </if>
+        <if test="updateUser != null and updateUser > -1 ">
+            updateUser,
+        </if>
+    </trim>
+    <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+        <if test="id != null and id > -1 ">
+            #{id},
+        </if>
+        <if test="roleName != null and roleName != '' ">
+            #{roleName},
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            #{createDate},
+        </if>
+        <if test="createUser != null and createUser > -1 ">
+            #{createUser},
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            #{updateDate},
+        </if>
+        <if test="updateUser != null and updateUser > -1 ">
+            #{updateUser},
+        </if>
+    </trim>
+</insert>
+
+<delete id="delete"  parameterType="map"> 
+    delete from <include refid="tableName" /> where id=#{id} 
+</delete>
+<delete id="deleteFunctionByRoleId"  parameterType="map"> 
+    delete from rolefunction where roleId=#{roleId} 
+</delete>
+
+<update id="update" parameterType="cn.xiaoyu.entity.system.Role"> 
+    update <include refid="tableName" />
+        <set> 
+        <if test="id != null and id > -1 ">
+            id = #{id},
+        </if>
+        <if test="roleName != null and roleName != '' ">
+            roleName = #{roleName},
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            createDate = #{createDate},
+        </if>
+        <if test="createUser != null and createUser > -1 ">
+            createUser = #{createUser},
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            updateDate = #{updateDate},
+        </if>
+        <if test="updateUser != null and updateUser > -1 ">
+            updateUser = #{updateUser},
+        </if>
+        </set>
+        where id=#{id}
+</update>
+
+<select id="get" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from <include refid="tableName" /> where   id=#{id}
+</select>
+
+<select id="list" parameterType="map" resultMap="BaseResultMap">
+         SELECT r.id,r.roleName,GROUP_CONCAT(DISTINCT(m.resourceName)) as functionName
+         FROM role r left JOIN rolefunction rf on r.id=rf.roleId
+         left JOIN menu m on m.id=rf.functionId  
+         <if test="roleName != null and roleName != '' ">
+            and  r.roleName = #{roleName} 
+        </if>
+		GROUP BY r.id   ORDER BY r.createDate desc 
+</select>
+<select id="functionByRoleId" parameterType="map" resultType="String">
+ <!-- 根据角色查出角色的功能 -->
+SELECT  GROUP_CONCAT(DISTINCT(m.id)) as id FROM role r INNER JOIN rolefunction rf on r.id=rf.roleId inner JOIN menu m on m.id=rf.functionId
+and r.id=#{roleId}   ORDER BY m.id desc 
+</select>
+
+</mapper>
+

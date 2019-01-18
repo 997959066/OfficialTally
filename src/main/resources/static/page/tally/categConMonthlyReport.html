@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+	<link rel="stylesheet" href="../../css/tally/summary.css">
+       <meta charset="utf-8">
+   </head>
+       <select class="dropbtn" id="a">
+		  </select>
+      		  <select class="dropbtnM" id="b">
+		  </select>   		 
+   <body style="height: 90%; margin: 0">
+
+       <div id="categConMonthly" style="height: 100%"></div>
+	<script src="../../js/echarts/echarts.min.js"></script>
+	<script src="../../js/echarts/echarts-gl.min.js"></script>
+	<script src="../../js/echarts/ecStat.min.js"></script>
+	<script src="../../js/echarts/dataTool.min.js"></script>
+	<script src="../../js/echarts/china.js"></script>
+	<script src="../../js/echarts/world.js"></script>
+	<script src="../../js/echarts/api.js"></script>
+	<script src="../../js/echarts/bmap.min.js"></script>
+	<script src="../../js/echarts/simplex.js"></script>
+	<script src="../../js/jquery-1.9.1.min.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/config.js"></script>
+       <script type="text/javascript">
+     
+       
+       //年
+       var date = new Date();
+       var year = date.getFullYear(); // 获取当前年份(2位)
+       var myArray = [];
+       for (var i = year - 5; i <= year; i++) {
+       	myArray.push(i)
+       }
+
+       // 获取select
+       var sel = document.getElementById('a');
+       // 因为一会要用str来拼接，所以要先声明一下
+       var str = "";
+       // 遍历循环，将每一项都拼接到str中
+
+       for (var i = myArray.length - 1; i >= 0; i--) { // 倒叙
+       	console.log(myArray[i]);
+       	str += '<option value=' + myArray[i] + '>' + myArray[i] + "年" + '</option>';
+
+       }
+       // 把拼接好的str放到select标签里
+       sel.innerHTML = str;
+       var years;
+       /* 用jQuery实现 */
+       $("#a option").eq(0).attr("selected", true); // 控制默认选中 0 第一个
+       years = $("#a").val();
+       var oSelect = $("#a");
+       oSelect.on('change', function() {
+       	var checkText = $("#a").find("option:selected").text(); // 获取Select选择的Text
+       	years = $("#a").val();
+       });
+       //月//////////////////////////////////////////////////////////////////////////
+       var myArrayM = [];
+       for (var i = 1; i <= 12; i++) {
+    	   myArrayM.push(i)
+    	}
+       var sel = document.getElementById('b');
+       // 因为一会要用str来拼接，所以要先声明一下
+       var str = "";
+       // 遍历循环，将每一项都拼接到str中
+       for (var i = myArrayM.length - 1; i >= 0; i--) { // 倒叙
+       	str += '<option value=' + myArrayM[i] + '>' + myArrayM[i] + "月" + '</option>';
+       }
+       sel.innerHTML = str;
+       $("#b option").eq(0).attr("selected", true); // 控制默认选中 0 第一个
+       var month;
+       /* 用jQuery实现 */
+       month = $("#b").val();
+       var oSelect = $("#b");
+       oSelect.on('change', function() {
+       	month = $("#b").val();
+       	categoricalConsumptionReport(years,month);
+       });
+  /////////////////////////////////////////////////////////////////////////
+
+       categoricalConsumptionReport(year,month);
+       
+       function categoricalConsumptionReport(year,month) {
+    		var Params= {
+    				year : year,
+    				month : month
+    			}
+    			var newParams = setToken(Params);
+    			$.get(categoricalConsumptionUrl,newParams , function(data, status) {
+    				if(data.code<=0){
+    					return tankuang("300",data.msg); 
+    				}{
+    					var StringTypeName = [];
+    				var typeName = data.data.typeName;  //名字
+    			 
+    				var typeList = data.data.typeList;
+    			/////
+    	var dom = document.getElementById("categConMonthly");
+    	var myChart = echarts.init(dom);
+    	var app = {};
+    	option = null;
+    	option = {
+    	    title : {
+    	        text: year+"年"+month+"月",
+    	        subtext: '各项分类消费占比',
+    	        x:'center'
+    	    },
+    	    tooltip : {
+    	        trigger: 'item',
+    	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    	    },
+    	    legend: {
+    	        orient: 'vertical',
+    	        left: 'left',
+    	        data:typeName
+    	    },
+    	    series : [
+    	        {
+    	            name: '消费占比',
+    	            type: 'pie',
+    	            radius : '55%',
+    	            center: ['50%', '60%'],
+    	            data:typeList/* [
+    	                {value:335, name:'直接访问'},
+    	                {value:310, name:'邮件营销'},
+    	                {value:234, name:'联盟广告'},
+    	                {value:135, name:'视频广告'},
+    	                {value:1548, name:'搜索引擎'}
+    	            ] */,
+    	            itemStyle: {
+    	                emphasis: {
+    	                    shadowBlur: 10,
+    	                    shadowOffsetX: 0,
+    	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+    	                }
+    	            }
+    	        }
+    	    ]
+    		};
+    	;
+    		if (option && typeof option === "object") {
+    		    myChart.setOption(option, true);
+    		}
+    				}
+    			});
+    	}
+       </script>
+   </body>
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>数据账单</title>
+<script src="../../js/jquery-1.9.1.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/tally/dataBill.js"></script>
+<link rel="stylesheet" href="../../css/tally/dataBill.css">
+</head>
+ <body>
+		<div class="dataBillClass">
+		<div id="theMonthlyConsumptionDivId" class="theMonthlyCoDivCss">
+			<table>
+				<thead>
+					<tr>
+						<th class="w40">月数</th>
+						<th class="w80">月收入</th>
+						<th class="w80">月消费</th>
+						<th class="w160">月每天平均消费</th>
+					</tr>
+				</thead>
+				<tbody id="theMonthlyConsumption">
+				</tbody>
+				<thead>
+			</table>
+		</div>
+				<div class="yearExport">
+				<input class="yearAllExport"type="button" value="导出年综合消费">
+				</div>
+				
+						<!--上传明细消费  -->
+		<div class="eunbsp">
+		 针对数据操作：谨慎导入 <input type="file" id="file1" />  
+		</div>
+		<input class="execlUpload" type="button"
+			id="execlUpload" value="上传明细消费" />
+			
+		<!-- 时间端消费的请求 -->	
+		<div class="theTotalAmountButtonCss">
+		<ul>
+			<li><span>开始日期 ：</span><input id="startTime" type="text"></li>
+			<li><span>结束日期 ：</span><input id="endTime" type="text">
+						<li><span>消费方向 ：</span><input id="used" type="text">
+					&nbsp;&nbsp;&nbsp; <li><input id="theTotalAmountButtonId" class="theTotalAmount" type="button" value="时段总消费"></li>
+		</ul>
+		</div>
+		<!-- 回显示时间段消费 -->
+		<div id="startToendTimeDivId">
+			<label class="startToendTime"></label>
+		</div>
+		
+				<div class="dayList">
+		<ul>
+			<li><span>收入来源 ：</span><input id="incomeSource" type="text"></li>
+			<li><span>年 ：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input id="incomeYear" type="text"></li>
+			<li><span>月 ：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input id="incomeMonth" type="text"></li>
+			<li><span>钱数 ： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input id="incomeMoney" type="text"></li>
+			<li><input class="save" type="button" value="保存收入"></li>
+		</ul>
+		
+		</div>
+		
+		
+		</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.tally.ConsumeTypeMapper">
+
+	<resultMap type="cn.xiaoyu.entity.tally.ConsumeType" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="typeName" column="typeName" />
+	</resultMap>
+
+	 <!--  2018.12.24 类型列表-->
+	 <!--  2018.12.25 增加排序 -->
+	 <!--  2018.12.26删掉typeId字段 -->
+	<select id="list" parameterType="map" resultMap="BaseResultMap">
+ 			SELECT id,typeName FROM consumetype ORDER BY id asc
+	</select>
+</mapper>
+

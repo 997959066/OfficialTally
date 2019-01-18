@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.system.MenuMapper">
+
+<resultMap type="cn.xiaoyu.entity.system.Menu" id="BaseResultMap">
+    <id property="id" jdbcType ="INTEGER" column="id"/>
+    <result property="resourceName" column="resourceName"/>
+    <result property="accessPath" column="accessPath"/>
+    <result property="parentId" column="parentId"/>
+    <result property="resourceId" column="resourceId"/>
+</resultMap>
+
+<sql id="tableName">
+    menu
+</sql>
+
+<insert id="append" parameterType="cn.xiaoyu.entity.system.Menu">
+    insert into <include refid="tableName" />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null and id > -1 ">
+            id,
+        </if>
+        <if test="resourceName != null and resourceName != '' ">
+            resourceName,
+        </if>
+        <if test="accessPath != null and accessPath != '' ">
+            accessPath,
+        </if>
+        <if test="parentId != null and parentId > -1 ">
+            parentId,
+        </if>
+        <if test="resourceId != null and resourceId > -1 ">
+            resourceId,
+        </if>
+    </trim>
+    <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+        <if test="id != null and id > -1 ">
+            #{id},
+        </if>
+        <if test="resourceName != null and resourceName != '' ">
+            #{resourceName},
+        </if>
+        <if test="accessPath != null and accessPath != '' ">
+            #{accessPath},
+        </if>
+        <if test="parentId != null and parentId > -1 ">
+            #{parentId},
+        </if>
+        <if test="resourceId != null and resourceId > -1 ">
+            #{resourceId},
+        </if>
+    </trim>
+</insert>
+
+<delete id="delete"  parameterType="map"> 
+    delete from <include refid="tableName" /> where id=#{id} 
+</delete>
+
+<update id="update" parameterType="cn.xiaoyu.entity.system.Menu"> 
+    update <include refid="tableName" />
+        <set> 
+        <if test="id != null and id > -1 ">
+            id = #{id},
+        </if>
+        <if test="resourceName != null and resourceName != '' ">
+            resourceName = #{resourceName},
+        </if>
+        <if test="accessPath != null and accessPath != '' ">
+            accessPath = #{accessPath},
+        </if>
+        <if test="parentId != null and parentId > -1 ">
+            parentId = #{parentId},
+        </if>
+        <if test="resourceId != null and resourceId > -1 ">
+            resourceId = #{resourceId},
+        </if>
+        </set>
+        where id=#{id}
+</update>
+
+<select id="list" parameterType="map" resultMap="BaseResultMap">
+    select * from <include refid="tableName" /> where 1=1 
+        <if test="id != null and id > -1 ">
+            and id = #{id}
+        </if>
+        <if test="resourceName != null and resourceName != '' ">
+            and resourceName = #{resourceName}
+        </if>
+        <if test="accessPath != null and accessPath != '' ">
+            and accessPath = #{accessPath}
+        </if>
+        <if test="parentId != null and parentId > -1 ">
+            and parentId = #{parentId}
+        </if>
+        <if test="resourceId != null and resourceId > -1 ">
+            and resourceId = #{resourceId}
+        </if>
+    order by id asc
+</select>
+
+
+		<!-- 用户ID 查询菜单 -->
+		<select id="listFunction" parameterType="map" resultMap="BaseResultMap">
+				SELECT DISTINCT
+					m.* 
+				FROM
+					rolefunction rf
+					INNER JOIN menu m ON rf.functionId = m.id 
+					AND rf.roleId IN (
+				SELECT
+					r.id 
+				FROM
+					USER u
+					INNER JOIN userrole ur ON ur.userId = u.id 
+					AND u.id = #{userId}
+					INNER JOIN role r ON r.id = ur.roleId 
+					) 
+				ORDER BY
+					m.id ASC  
+		</select>
+
+</mapper>
+

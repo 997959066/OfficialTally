@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+   <link rel="stylesheet" href="../../css/tally/summary.css">
+       <meta charset="utf-8">
+   </head>
+   
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%">
+       </div>
+           <select class="dropbtn" id="a">
+		  </select>
+    	<script src="../../js/echarts/echarts.min.js"></script>
+	<script src="../../js/echarts/echarts-gl.min.js"></script>
+	<script src="../../js/echarts/ecStat.min.js"></script>
+	<script src="../../js/echarts/dataTool.min.js"></script>
+	<script src="../../js/echarts/china.js"></script>
+	<script src="../../js/echarts/world.js"></script>
+	<script src="../../js/echarts/api.js"></script>
+	<script src="../../js/echarts/bmap.min.js"></script>
+	<script src="../../js/echarts/simplex.js"></script>
+       <script src="../../js/jquery-1.9.1.min.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/config.js"></script>
+       <script type="text/javascript">
+       
+       //年///////////////////////////////////////////////////////
+       var date = new Date();
+       var year = date.getFullYear(); // 获取当前年份(2位)
+       var myArray = [];
+       for (var i = year - 5; i <= year; i++) {
+       	myArray.push(i)
+       }
+
+       // 获取select
+       var sel = document.getElementById('a');
+       // 因为一会要用str来拼接，所以要先声明一下
+       var str = "";
+       // 遍历循环，将每一项都拼接到str中
+
+       for (var i = myArray.length - 1; i >= 0; i--) { // 倒叙
+       	console.log(myArray[i]);
+       	str += '<option value=' + myArray[i] + '>' + myArray[i] + "年" + '</option>';
+
+       }
+       // 把拼接好的str放到select标签里
+       sel.innerHTML = str;
+       var years;
+       /* 用jQuery实现 */
+       $("#a option").eq(0).attr("selected", true); // 控制默认选中 0 第一个
+       years = $("#a").val();
+       yearCateInfo(years);
+       var oSelect = $("#a");
+       oSelect.on('change', function() {
+       	var checkText = $("#a").find("option:selected").text(); // 获取Select选择的Text
+       	years = $("#a").val();
+       	yearCateInfo(years);
+       });
+		///////////////////////////////////////////////////////
+       
+       function yearCateInfo(years) {
+       var Params= {
+				year : years  
+			}
+			var newParams = setToken(Params);
+			$.get(yearCateInfoUrl,newParams , function(data, status) {
+				if(data.code<=0){
+					return tankuang("300",data.msg); 
+				}{
+					var StringTypeName = [];
+				var series = data.data.series;  //名字
+				var legend = data.data.legend;
+       
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+app.title = '堆叠条形图';
+
+option = {
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: legend/* {
+        data: ['直接访问', '邮件营销','联盟广告','视频广告','搜索引擎']
+    } */,
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis:  {
+        type: 'value'
+    },
+    yAxis: {
+        type: 'category',
+        data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+    },
+    series: series/* [
+        {
+            name: '直接访问',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+            data: [320, 302, 301, 334, 390, 330, 320]
+        },
+        {
+            name: '邮件营销',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+            data: [120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name: '联盟广告',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+            data: [220, 182, 191, 234, 290, 330, 310]
+        },
+        {
+            name: '视频广告',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+            data: [150, 212, 201, 154, 190, 330, 410]
+        },
+        {
+            name: '搜索引擎',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+            data: [820, 832, 901, 934, 1290, 1330, 1320]
+        }
+    ] */
+};;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+				}
+			});
+			
+		}
+       </script>
+   </body>
+</html>

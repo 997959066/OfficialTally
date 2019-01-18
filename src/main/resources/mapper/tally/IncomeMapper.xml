@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.tally.IncomeMapper">
+
+<resultMap type="cn.xiaoyu.entity.tally.Income" id="BaseResultMap">
+    <id property="id" jdbcType ="INTEGER" column="id"/>
+    <result property="year" column="year"/>
+    <result property="month" column="month"/>
+    <result property="money" column="money"/>
+    <result property="source" column="source"/>
+    <result property="createDate" column="createDate"/>
+    <result property="updateDate" column="updateDate"/>
+    <result property="userId" column="userId"/>
+</resultMap>
+
+<sql id="tableName">
+    income
+</sql>
+	<!-- 月纯收入2018.12.21日增加-->
+	<select id="monthNetIncome" parameterType="map" resultType="java.util.HashMap">
+
+			SELECT (SR.money-XF.expense) AS netIncome,XF.month,XF.year
+			FROM
+			<!--  月收入总和 -->
+			 (select CONVERT ( sum(money), DECIMAL ( 12, 2 ) ) as money from income where
+			year=(SELECT YEAR ( #{endTime} )) and month=(SELECT MONTH ( #{endTime})) and userId=1)
+			 as SR,
+			 <!-- 月消费总和 -->
+			(SELECT CONVERT ( sum(expense), DECIMAL ( 12, 2 ) ) as  expense,(SELECT MONTH ( #{endTime} )) AS month
+			,(SELECT YEAR ( #{endTime} )) AS year
+			FROM summary  WHERE
+			
+			<!-- "2018-10-01" <= countDate and countDate<= "2018-10-31"   -->
+					<if test="startTime != null and startTime != '' ">
+						 date_format(countDate,'%Y-%m-%d') &gt;=
+						str_to_date(#{startTime},
+						'%Y-%m-%d')
+					</if>
+					<if test="endTime != null and endTime != '' ">
+						and date_format(countDate,'%Y-%m-%d') &lt;=
+						str_to_date(#{endTime},
+						'%Y-%m-%d')
+					</if>
+			
+			AND userId =#{userId}
+			) as XF
+			
+	</select>
+	
+<insert id="append" parameterType="cn.xiaoyu.entity.tally.Income">
+    insert into <include refid="tableName" />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null and id > -1 ">
+            id,
+        </if>
+        <if test="year != null and year > -1 ">
+            year,
+        </if>
+        <if test="month != null and month > -1 ">
+            month,
+        </if>
+        <if test="money != null and money != '' ">
+            money,
+        </if>
+        <if test="source != null and source != '' ">
+            source,
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            createDate,
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            updateDate,
+        </if>
+        <if test="userId != null  ">
+            userId,
+        </if>
+    </trim>
+    <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+        <if test="id != null and id > -1 ">
+            #{id},
+        </if>
+        <if test="year != null and year > -1 ">
+            #{year},
+        </if>
+        <if test="month != null and month > -1 ">
+            #{month},
+        </if>
+        <if test="money != null and money != '' ">
+            #{money},
+        </if>
+        <if test="source != null and source != '' ">
+            #{source},
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            #{createDate},
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            #{updateDate},
+        </if>
+        <if test="userId != null ">
+            #{userId},
+        </if>
+    </trim>
+</insert>
+
+<delete id="delete"  parameterType="map"> 
+    delete from <include refid="tableName" /> where id=#{id} 
+</delete>
+
+<update id="update" parameterType="cn.xiaoyu.entity.tally.Income"> 
+    update <include refid="tableName" />
+        <set> 
+        <if test="id != null and id > -1 ">
+            id = #{id},
+        </if>
+        <if test="year != null and year > -1 ">
+            year = #{year},
+        </if>
+        <if test="month != null and month > -1 ">
+            month = #{month},
+        </if>
+        <if test="money != null and money != '' ">
+            money = #{money},
+        </if>
+        <if test="source != null and source != '' ">
+            source = #{source},
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            createDate = #{createDate},
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            updateDate = #{updateDate},
+        </if>
+        </set>
+        where id=#{id}
+</update>
+
+<select id="selectByID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from <include refid="tableName" /> where   id=#{id}
+</select>
+
+<select id="list" parameterType="map" resultMap="BaseResultMap">
+    select * from <include refid="tableName" /> where 1=1 
+        <if test="id != null and id > -1 ">
+            and id = #{id}
+        </if>
+        <if test="year != null and year > -1 ">
+            and year = #{year}
+        </if>
+        <if test="month != null and month > -1 ">
+            and month = #{month}
+        </if>
+        <if test="money != null and money != '' ">
+            and money = #{money}
+        </if>
+        <if test="source != null and source != '' ">
+            and source = #{source}
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            and createDate = #{createDate}
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            and updateDate = #{updateDate}
+        </if>
+    order by createDate desc
+</select>
+<select id="incomeDetails" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+			id,
+			YEAR,
+			MONTH,
+			money,
+			source 
+		FROM
+			 income
+			 where
+             year = #{year}
+        <if test="month != null and month > -1 ">
+            and month = #{month}
+        </if>
+        <if test="money != null and money != '' ">
+            and money = #{money}
+        </if>
+        <if test="source != null and source != '' ">
+            and source like concat('%',#{source},'%')
+        </if>
+		ORDER BY
+		MONTH ASC
+        
+</select>
+
+
+
+	<!-- 月度综合报表（月收入） -->
+<!-- 	<select id="monthlyIncome" parameterType="map"
+		resultType="java.util.HashMap">
+		SELECT month
+			,
+			( SELECT CONVERT ( SUM( money ), DECIMAL ( 12, 2 ) ) ) AS money 
+		FROM
+			income 
+		WHERE
+			YEAR = #{year}
+		GROUP BY
+		month
+ SELECT  LAST_DAY('2018-06-01') as lastDate   月最后一天
+ SELECT day(LAST_DAY('2008-06-01'))           获取月的天数
+ select convert(10000.32323,decimal(12,4));   保留小数
+	</select> -->
+</mapper>
+

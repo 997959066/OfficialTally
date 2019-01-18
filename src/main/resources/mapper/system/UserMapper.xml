@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.system.UserMapper">
+
+<resultMap type="cn.xiaoyu.entity.system.User" id="BaseResultMap">
+    <id property="id" jdbcType ="INTEGER" column="id"/>
+    <result property="userName" column="userName"/>
+    <result property="createDate" column="createDate"/>
+    <result property="createUser" column="createUser"/>
+    <result property="updateDate" column="updateDate"/>
+    <result property="updateUser" column="updateUser"/>
+    <result property="disabledFlag" column="disabledFlag"/>
+    <result property="disabledDate" column="disabledDate"/>
+    <result property="faceImage" column="faceImage"/>
+    <result property="loginName" column="loginName"/>
+    <result property="passWord" column="passWord"/>
+    <result property="phone" column="phone"/>
+    
+    
+    <result property="roleName" column="roleName"/>
+</resultMap>
+
+<sql id="tableName">
+    user
+</sql>
+
+<insert id="append" parameterType="cn.xiaoyu.entity.system.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user (
+        <if test="userName != null and userName != '' ">
+            userName
+        </if>
+        <if test="createUser != null and createUser > -1 ">
+            ,createUser
+        </if>
+        <if test="faceImage != null and faceImage != '' ">
+            ,faceImage
+        </if>
+        <if test="loginName != null and loginName != '' ">
+            ,loginName
+        </if>
+        <if test="passWord != null and passWord != '' ">
+            ,passWord
+        </if>
+        <if test="phone != null and phone != '' ">
+            ,phone
+        </if>   
+        <if test="disabledFlag != null  ">
+            ,disabledFlag
+        </if>   
+        )  Select
+        <if test="userName != null and userName != '' ">
+            #{userName}
+        </if>
+        <if test="createUser != null and createUser > -1 ">
+            , #{createUser}
+        </if>
+        <if test="faceImage != null and faceImage != '' ">
+            , #{faceImage}
+        </if>
+        <if test="loginName != null and loginName != '' ">
+           , #{loginName}
+        </if>
+        <if test="passWord != null and passWord != '' ">
+           , #{passWord}
+        </if>
+        <if test="phone != null and phone != '' ">
+           , #{phone}
+        </if>
+        <if test="disabledFlag != null ">
+           , #{disabledFlag}
+        </if>
+		Where Not Exists(
+		select * from user Where
+		userName= #{userName}
+		and loginName = #{loginName}  
+		and disabledFlag = #{disabledFlag}  
+		)
+</insert>
+
+
+<insert id="appendUserRole" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO userrole (roleId, userId )  Select #{roleId},#{userId}
+   Where Not Exists( select * from userrole Where roleId= #{roleId} and userId = #{userId}   )
+</insert>
+<delete id="delete"  parameterType="map"> 
+    delete from <include refid="tableName" /> where id=#{id} 
+</delete>
+<delete id="deleteUserRole"  parameterType="map"> 
+    delete from userrole where  1=1
+        <if test="userId != null and userId > -1 ">
+       		 and    userId=#{userId}
+        </if>
+         <if test="roleId != null and roleId > -1 ">
+       		 and    roleId = #{roleId}
+        </if>
+</delete>
+
+<!-- <update id="updataUserRole" parameterType="map"> 
+    update userRole
+        <set> 
+        roleId = #{roleId},userId = #{userId}
+        </set>
+        where roleId=#{reforeRoleId} and userId=#{userId}
+</update> -->
+<update id="update" parameterType="cn.xiaoyu.entity.system.User" statementType="PREPARED"> 
+    update <include refid="tableName" />
+        <set> 
+        <if test="id != null and id > -1 ">
+            id = #{id},
+        </if>
+        <if test="userName != null and userName != '' ">
+            userName = #{userName},
+        </if>
+        <if test="createDate != null ">
+            createDate = #{createDate},
+        </if>
+        <if test="createUser != null  ">
+            createUser = #{createUser},
+        </if>
+            updateDate = now(),
+        <if test="updateUser != null   ">
+            updateUser = #{updateUser},
+        </if>
+        <if test="disabledFlag != null  ">
+            disabledFlag = #{disabledFlag},
+        </if>
+        <if test="disabledDate != null   ">
+            disabledDate = #{disabledDate},
+        </if>
+        <if test="faceImage != null and faceImage != '' ">
+            faceImage = #{faceImage},
+        </if>
+        <if test="loginName != null and loginName != '' ">
+            loginName = #{loginName},
+        </if>
+        <if test="passWord != null and passWord != '' ">
+            passWord = #{passWord},
+        </if>
+        <if test="phone != null and phone != '' ">
+            phone = #{phone},
+        </if>
+        </set>
+        where id=#{id}
+</update>
+
+<select id="get" parameterType="cn.xiaoyu.entity.system.User" resultMap="BaseResultMap">
+		SELECT
+			u.*,r.id AS roleId,r.roleName 
+		FROM 	user u
+			INNER JOIN userrole ur ON ur.userId = u.id 
+			AND ur.roleId =#{roleId}
+			AND u.id = #{id}
+			INNER JOIN role r ON r.id = ur.roleId
+</select>
+<select id="getUser" parameterType="cn.xiaoyu.entity.system.User" resultMap="BaseResultMap">
+		 select * from <include refid="tableName" /> where  1=1
+     <if test="id != null and id > -1 ">
+            and id = #{id}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and userName = #{userName}
+        </if>
+        <if test="createDate != null and createDate != '' ">
+            and createDate = #{createDate}
+        </if>
+        <if test="createUser != null and createUser > -1 ">
+            and createUser = #{createUser}
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            and updateDate = #{updateDate}
+        </if>
+        <if test="updateUser != null and updateUser > -1 ">
+            and updateUser = #{updateUser}
+        </if>
+        <if test="disabledFlag != null and disabledFlag > -1 ">
+            and disabledFlag = #{disabledFlag}
+        </if>
+        <if test="disabledDate != null and disabledDate != '' ">
+            and disabledDate = #{disabledDate}
+        </if>
+        <if test="faceImage != null and faceImage != '' ">
+            and faceImage = #{faceImage}
+        </if>
+        <if test="loginName != null and loginName != '' ">
+            and loginName = #{loginName}
+        </if>
+        <if test="passWord != null and passWord != '' ">
+            and passWord = #{passWord}
+        </if>
+        <if test="phone != null and phone != '' ">
+            and phone = #{phone}
+        </if>
+</select>
+
+	<select id="list" parameterType="map" resultMap="BaseResultMap">
+	SELECT u.id ,u.userName,u.loginName,u.disabledFlag,
+	u.passWord,u.phone,
+	r.id as roleId,r.roleName 
+	FROM `user`
+	 u inner JOIN userrole ur on ur.userId=u.id
+	inner join role r on r.id=ur.roleId
+	
+	   <where>
+	        <if test="userName != null and userName != '' ">
+	            and userName like concat('%',#{userName},'%')
+	        </if>
+	        <if test="roleName != null and roleName != '' ">
+	            and roleName like concat('%',#{roleName},'%')
+	        </if>
+	        <if test="roleId != null and roleId != '' ">
+	            and ur.roleId=#{roleId}
+	        </if>
+	        <if test="id != null and id != '' ">
+	            and u.id=#{id}
+	        </if>
+	</where>
+        
+    order by u.createDate desc
+</select>
+
+</mapper>
+
