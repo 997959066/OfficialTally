@@ -29,6 +29,7 @@
        //年
        var date = new Date();
        var year = date.getFullYear(); // 获取当前年份(2位)
+       var nowMonth=date.getMonth()+1; //获取当前月份
        var myArray = [];
        for (var i = year - 5; i <= year; i++) {
        	myArray.push(i)
@@ -65,11 +66,12 @@
        // 因为一会要用str来拼接，所以要先声明一下
        var str = "";
        // 遍历循环，将每一项都拼接到str中
-       for (var i = myArrayM.length - 1; i >= 0; i--) { // 倒叙
+       for (var i = 0;i<=myArrayM.length -1;  i++) { // 倒叙
        	str += '<option value=' + myArrayM[i] + '>' + myArrayM[i] + "月" + '</option>';
        }
        sel.innerHTML = str;
-       $("#b option").eq(0).attr("selected", true); // 控制默认选中 0 第一个
+       //锁定当前月
+       $("#b option").eq(nowMonth-1).attr("selected", true); // 控制默认选中 0 第一个
        var month;
        /* 用jQuery实现 */
        month = $("#b").val();

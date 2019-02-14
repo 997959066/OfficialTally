@@ -26,7 +26,7 @@ public class AspectHandlerToken extends Base{
 	
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Around(Constants.TALLY)
+//    @Around(Constants.TALLY)
     public Object doTally(ProceedingJoinPoint pjp) throws Throwable {
         return token(pjp);
     }

@@ -183,7 +183,7 @@ public class SummaryServiceImpl extends Base implements SummaryService {
 				BigDecimal twoTimeSum =summaryMapper.timeSum(sdf.parse(year+"-06-01 00:00:00"), sdf.parse(year+"-08-31 59:59:59"),userId);
 				BigDecimal threeTimeSum =summaryMapper.timeSum(sdf.parse(year+"-09-01 00:00:00"), sdf.parse(year+"-11-31 59:59:59"),userId);
 																										//增加到下一年按照中国的纬度
-				BigDecimal fourTimeSum =summaryMapper.timeSum(sdf.parse(year+"-12-01 00:00:00"), sdf.parse((year+1)+"-2-28 59:59:59"),userId);
+				BigDecimal fourTimeSum =summaryMapper.timeSum(sdf.parse(year-1+"-12-01 00:00:00"), sdf.parse((year)+"-2-28 59:59:59"),userId);
 				Map map1=new HashMap();
 				Map map2=new HashMap();
 				Map map3=new HashMap();
