@@ -9,7 +9,8 @@ public class LoggerQueue {
     public static final int QUEUE_MAX_SIZE = 10000;
     private static LoggerQueue alarmMessageQueue = new LoggerQueue();
     //阻塞队列
-    private BlockingQueue blockingQueue = new LinkedBlockingQueue<>(QUEUE_MAX_SIZE);
+    @SuppressWarnings("rawtypes")
+	private BlockingQueue blockingQueue = new LinkedBlockingQueue<>(QUEUE_MAX_SIZE);
  
     private LoggerQueue() {
     }
@@ -24,7 +25,8 @@ public class LoggerQueue {
      * @param log
      * @return
      */
-    public boolean push(LoggerMessage log) {
+    @SuppressWarnings("unchecked")
+	public boolean push(LoggerMessage log) {
         return this.blockingQueue.add(log);//队列满了就抛出异常，不阻塞
     }
  

@@ -389,13 +389,16 @@ public class TallyServiceImpl extends Base implements TallyService {
 				timee.get("endTime").toString(), getUser().getId(), null);
 		List<HashMap<String, String>> mapList = new ArrayList<>();
 		List<String> l = new ArrayList<>();
-		tallyList.forEach(o -> {
-			l.add(o.getTypeName());
-			HashMap<String, String> map = new HashMap<>();
-			map.put("name", o.getTypeName());
-			map.put("value", o.getHowMuch().toString());
-			mapList.add(map);
-		});
+		 BigDecimal totalAmount= BigDecimal.ZERO;
+		 for (int i = 0; i < tallyList.size(); i++) {
+			 totalAmount=totalAmount.add(tallyList.get(i).getHowMuch());
+			 l.add(tallyList.get(i).getTypeName());
+				HashMap<String, String> map = new HashMap<>();
+				map.put("name", tallyList.get(i).getTypeName());
+				map.put("value", tallyList.get(i).getHowMuch().toString());
+				mapList.add(map);
+		}
+		s.put("totalAmount", totalAmount);
 		s.put("typeList", mapList);
 		s.put("typeName", l);
 		return s;

@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+@SuppressWarnings("deprecation")
 @Configuration
 public class MyMvcConfig extends WebMvcConfigurerAdapter {
 	/**
@@ -22,7 +23,6 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * 默认首页配置
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/index");

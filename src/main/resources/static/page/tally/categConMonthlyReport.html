@@ -98,6 +98,7 @@
     				var typeName = data.data.typeName;  //名字
     			 
     				var typeList = data.data.typeList;
+    				var totalAmount = data.data.totalAmount;
     			/////
     	var dom = document.getElementById("categConMonthly");
     	var myChart = echarts.init(dom);
@@ -106,7 +107,7 @@
     	option = {
     	    title : {
     	        text: year+"年"+month+"月",
-    	        subtext: '各项分类消费占比',
+    	        subtext: "总消费 ： "+totalAmount+" 元",
     	        x:'center'
     	    },
     	    tooltip : {
