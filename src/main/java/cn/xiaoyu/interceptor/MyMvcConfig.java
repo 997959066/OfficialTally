@@ -45,7 +45,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
                 .excludePathPatterns("/style/**")
                 .excludePathPatterns("/page/system/register.html")  //注册页面不拦截 2018.12.23
                 .excludePathPatterns("/user/append")  //注册页面增加不拦截 2018.12.23
-                .excludePathPatterns("/swagger-ui.html")  //sw 20190214
+//                .excludePathPatterns("/swagger-ui.html")  //sw 20190214
         .excludePathPatterns("/scripts/**");
     }
 }
