@@ -2,9 +2,9 @@ var networkProtocol="http://";
 //var ip="10.45.70.31";
 var ip="localhost";
 var port=":8080";
-var project="/OfficialTally";
+// var project="/OfficialTally";
 //var project="";  //jar 不指定
-var url=networkProtocol+ip+port+project;
+var url=networkProtocol+ip+port/*+project*/;
 
 //tally记账模块
 var saveUrl=url+"/tally/append";

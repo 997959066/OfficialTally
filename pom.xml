@@ -6,7 +6,7 @@
 	<groupId>cn.xiaoyu</groupId>
 	<artifactId>OfficialTally</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>OfficialTally</name>
 	<description>OfficialTally</description>
 
@@ -145,6 +145,13 @@
 		<finalName>OfficialTally-${project.version}</finalName>
 		<plugins>
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>cn.xiaoyu.Startup</mainClass>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
@@ -157,6 +164,22 @@
 						</resource>
 					</webResources>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<!-- 支持spring boot 命令构建 -->
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>false</fork>
+					<!--fork : 如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
