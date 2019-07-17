@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SuppressWarnings("deprecation")
-//@Configuration
+@Configuration
 public class MyMvcConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * 静态资源配置
