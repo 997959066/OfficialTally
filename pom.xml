@@ -122,24 +122,6 @@
 	<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++end   jar+++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
 	</dependencies>
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<environment>dev</environment>
-			</properties>
-			<activation>
-				<!-- default setting -->
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<id>pro</id>
-			<properties>
-				<environment>pro</environment>
-			</properties>
-		</profile>
-	</profiles>
  <!--2018.12.22 添加打包命令 clean package -DskipTests -Pdev  clean package -DskipTests -Ppro   打包命令 -->
 	<build>
 		<finalName>OfficialTally-${project.version}</finalName>
@@ -156,13 +138,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<webResources>
-						<resource>
-							<directory>src/main/profile/${environment}</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-							<filtering>true</filtering>
-						</resource>
-					</webResources>
 				</configuration>
 			</plugin>
 			<plugin>
