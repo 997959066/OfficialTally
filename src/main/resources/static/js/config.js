@@ -2,6 +2,7 @@ var networkProtocol="http://";
 //var ip="10.45.70.31";
 var ip="localhost";
 var port=":8080";
+// var port=":8280";
 // var project="/OfficialTally";
 //var project="";  //jar 不指定
 var url=networkProtocol+ip+port/*+project*/;
