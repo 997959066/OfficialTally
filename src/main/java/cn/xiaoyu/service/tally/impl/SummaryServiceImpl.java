@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.xiaoyu.common.Constants;
 import org.springframework.stereotype.Service;
 
 import cn.xiaoyu.common.Base;
@@ -223,7 +224,7 @@ public class SummaryServiceImpl extends Base implements SummaryService {
 
 	@Override
 	public HashMap<String, Object> annualWeeklyReport(Integer userId) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_PATTEN);
 		HashMap<String,Object> map=new HashMap<String, Object>();
 		HashMap<String,Date> hashMap=this.getLastTimeInterval();
 		List<Summary> sll=new ArrayList<>();
