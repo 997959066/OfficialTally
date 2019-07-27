@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.xiaoyu.common.Constants;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -270,12 +271,12 @@ public class TallyServiceImpl extends Base implements TallyService {
 		row1.setRowStyle(style);
 		Date date;
 		try {
-			date = new SimpleDateFormat("yyyy-MM-dd").parse(year + "-01-01");
+			date = new SimpleDateFormat(Constants.DATE_FORMAT_PATTEN).parse(year + "-01-01");
 			List<Summary> yearSummary = summaryMapper.listByCountDate(date, userId);
 			for (int j = 0; j < yearSummary.size(); j++) {
 				HSSFRow r = sheet.createRow(j + 1);
 				r.createCell(0)
-						.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(yearSummary.get(j).getCountDate()));
+						.setCellValue(new SimpleDateFormat(Constants.DATE_FORMAT_PATTEN).format(yearSummary.get(j).getCountDate()));
 				r.createCell(1).setCellValue(yearSummary.get(j).getExpense().toString());
 			}
 		} catch (ParseException e) {
@@ -377,7 +378,7 @@ public class TallyServiceImpl extends Base implements TallyService {
 
 		////////////////////////////////////////////////////
 		TranUtil.outputFile(response, wb,
-				year + "年综合消费数据" + new SimpleDateFormat("yyyy-MM-dd HH：mm：ss").format(new Date()) + "导出数据");
+				year + "年综合消费数据" + new SimpleDateFormat(Constants.DATETIME_FORMAT_PATTEN).format(new Date()) + "导出数据");
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
