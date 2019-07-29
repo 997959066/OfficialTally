@@ -18,7 +18,7 @@ public class CustomDateSerializer extends JsonSerializer<Date>{
 	public void serialize(Date value, JsonGenerator jgen, SerializerProvider arg2)
 			throws IOException, JsonProcessingException {
 		// TODO Auto-generated method stub
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT_PATTEN);
         String formattedDate = formatter.format(value);
         jgen.writeString(formattedDate);
 		

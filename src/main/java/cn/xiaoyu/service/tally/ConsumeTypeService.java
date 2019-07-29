@@ -7,5 +7,5 @@ import cn.xiaoyu.entity.tally.ConsumeType;
  
 public interface ConsumeTypeService {
 	
-	public List<ConsumeType> list() ;
+	 List<ConsumeType> list() ;
 }

@@ -20,7 +20,7 @@ public interface TallyService {
 	/**
 	 * 分页查询方法
 	 */
-	public PageBean<Tally> listByPage(Tally tally,Integer pageNo,Integer pageSize) ;
+	PageBean<Tally> listByPage(Tally tally,Integer pageNo,Integer pageSize) ;
 
 	int append(Tally tally);
 
@@ -38,16 +38,16 @@ public interface TallyService {
 	HashMap<String,Object> yearCateInfo(int year);
 
 	/**每月消费汇总查询（对象格式）*/
-	public List<HashMap<String, Object>> theMonthlyConsumption(Integer userId,int year);
+	 List<HashMap<String, Object>> theMonthlyConsumption(Integer userId,int year);
 
 	/**
 	 * 导入明细消费数据
 	 * 从页面上导入数据，当数据库数据不在时通过Execl备份
 	 */
-	public int importData(Integer userId,HttpServletRequest request)throws ServletException, IOException ;
+	 int importData(Integer userId,HttpServletRequest request)throws ServletException, IOException ;
 	
 	/**
 	 * 描述 : 全信息导出
 	 */
-	public void yearAllExport(Integer userId,HttpServletResponse response) throws ScriptException;
+	 void yearAllExport(Integer userId,HttpServletResponse response) throws ScriptException;
 }

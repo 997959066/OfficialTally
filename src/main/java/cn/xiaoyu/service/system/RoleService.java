@@ -17,7 +17,7 @@ public interface RoleService{
     //查询用户不在的角色
     List<Role> listRoleByUserId( Integer userId);
     
-    public PageBean<Role> listByPage(Role role,Integer pageNo,Integer pageSize);
+     PageBean<Role> listByPage(Role role,Integer pageNo,Integer pageSize);
 
 }
 
