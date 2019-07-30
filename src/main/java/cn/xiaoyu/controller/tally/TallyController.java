@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.xiaoyu.common.Base;
 import cn.xiaoyu.common.DefaultException;
@@ -29,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
 public class TallyController extends Base {
 
 	     @ApiOperation(value = "查询列表记账分页", notes = "分页")
-	     @RequestMapping(value = "listByPage", method = RequestMethod.GET)
+		 @GetMapping(value = "/listByPage")
 	     public ResponseMessage listByPage(Tally tally,Integer pageNo,Integer pageSize){
 	     	try { 
 	     		//获取对象
@@ -42,7 +40,7 @@ public class TallyController extends Base {
 	
 
     @ApiOperation(value = "查询列表记账", notes = "查询列表记账")
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+	@GetMapping(value = "/list")
     public ResponseMessage list(Tally tally){
         try { 
             List<Tally> result = tallyService.list(tally);
@@ -55,7 +53,7 @@ public class TallyController extends Base {
 
     //增加
     @ApiOperation(value = "增加一笔记账", notes = "增加一笔记账")
-    @RequestMapping(value = "/append", method = RequestMethod.POST)
+	@PostMapping("/append")
     public ResponseMessage addTally(Tally tally){
         try { 
         	tally.setUserId(getUser().getId());
@@ -68,7 +66,7 @@ public class TallyController extends Base {
 
     //修改
     @ApiOperation(value = "修改记账", notes = "修改记账")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping("/update")
     public ResponseMessage updateTally(Tally tally){
         try { 
         	tally.setUserId(getUser().getId());
@@ -81,7 +79,7 @@ public class TallyController extends Base {
 
     //删除
     @ApiOperation(value = "删除记账", notes = "删除记账")
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@PostMapping("/delete")
     public ResponseMessage delTally(Integer id){
         try { 
         	tallyService.delete(id,getUser().getId());
@@ -92,7 +90,7 @@ public class TallyController extends Base {
     }
 
     @ApiOperation(value = "一段时间消费总钱数", notes = "一段时间消费总钱数")
-    @RequestMapping(value = "/theTotalAmount", method = RequestMethod.GET)
+	@GetMapping(value = "/theTotalAmount")
     public ResponseMessage theTotalAmount(String startTime,String endTime,String used){
         try { 
         	Tally amount =tallyService.theTotalAmount(startTime,endTime,used,getUser().getId());
@@ -102,7 +100,7 @@ public class TallyController extends Base {
         }
     }
     @ApiOperation(value = "每月消费总钱数", notes = "每月消费总钱数")
-    @RequestMapping(value = "/theMonthlyConsumption", method = RequestMethod.GET)
+	@GetMapping(value = "/theMonthlyConsumption")
     public ResponseMessage theMonthlyConsumption(int year){
     	try { 
     		List<HashMap<String, Object>> theMonthlyConsumption =tallyService.theMonthlyConsumption(getUser().getId(),year);
@@ -113,7 +111,7 @@ public class TallyController extends Base {
     }
      
     @ApiOperation(value = "全部信息导出Execl", notes = "导出明细消费")
-    @RequestMapping(value = "/yearAllExport", method = RequestMethod.GET)
+	@GetMapping(value = "/yearAllExport")
     public void allExport(HttpServletResponse response){
     	try { 
     		tallyService.yearAllExport(getUser().getId(),response);
@@ -132,7 +130,7 @@ public class TallyController extends Base {
     
     
 	@ApiOperation(value = "导入消费Execl", notes = "导入消费Execl")
-	@RequestMapping(value = "/importData", method = RequestMethod.POST)
+	@PostMapping("/importData")
 	public ResponseMessage importData(HttpServletRequest request)
 			throws IOException, ServletException {
 		try {
@@ -146,7 +144,7 @@ public class TallyController extends Base {
     
 	
 	   @ApiOperation(value = "每月消费分类", notes = "消费分类")
-	    @RequestMapping(value = "/categoricalConsumption", method = RequestMethod.GET)
+	   @GetMapping(value = "/categoricalConsumption")
 	    public ResponseMessage categoricalConsumption(int year,int month){
 	    	try { 
 	    		HashMap<String,Object> categoricalConsumption =tallyService.categoricalConsumption( year, month);
@@ -156,7 +154,7 @@ public class TallyController extends Base {
 	    	}
 	    }
 	   @ApiOperation(value = "年分类消费统计", notes = "年分类消费统计")
-	   @RequestMapping(value = "/yearCateInfo", method = RequestMethod.GET)
+	   @GetMapping(value = "/yearCateInfo")
 	   public ResponseMessage yearCateInfo(int year){
 		   try { 
 			   HashMap<String,Object> yearCateInfo =tallyService.yearCateInfo( year);
