@@ -1,6 +1,7 @@
 package cn.xiaoyu.controller;
 
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 public class LoginController extends Base {
 
 	@ApiOperation(value = "登陆验证", notes = "登陆验证")
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping("/login")
 	public ResponseMessage login(User user) {
 		try {
 			User userLoginName = new User();
@@ -53,7 +54,7 @@ public class LoginController extends Base {
 		}
 	}
 	@ApiOperation(value = "退出系统", notes = "退出系统")
-	@RequestMapping(value = "/out", method = RequestMethod.POST)
+	@PostMapping("/out")
 	public ResponseMessage out() {
 		try {
 			removeSession("user");
@@ -64,7 +65,7 @@ public class LoginController extends Base {
 	}
 
 	  //注册页面增加用户
-    @RequestMapping(value = "/registeredUser", method = RequestMethod.POST)
+	@PostMapping("/registeredUser")
     public ResponseMessage addUser(User user){
         try { 
            int  returnId =userService.append(user);

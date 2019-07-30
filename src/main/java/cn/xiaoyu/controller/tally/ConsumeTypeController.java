@@ -1,5 +1,5 @@
 package cn.xiaoyu.controller.tally;
-//import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 public class ConsumeTypeController extends Base {
 
 	     @ApiOperation(value = "查询下拉", notes = "查询下拉")
-	     @RequestMapping(value = "list", method = RequestMethod.GET)
+		 @GetMapping(value = "/list")
 	     public ResponseMessage list(){
 	     	try { 
 	     		return new ResponseMessage(MessageCode.SUCCESS,consumeTypeService.list());
