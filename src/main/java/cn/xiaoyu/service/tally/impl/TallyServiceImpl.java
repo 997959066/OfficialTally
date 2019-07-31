@@ -67,19 +67,22 @@ public class TallyServiceImpl extends Base implements TallyService {
 	public int append(Tally tally) {
 		int appendId = tallyMapper.append(tally);
 		if (appendId > 0) {
-			SetTally setTally=new SetTally();
-			setTally.setUserId(tally.getUserId());
-			Thread thread = new Thread(setTally);
-			thread.start();
-//			summaryService.dailyConsumptionYear(null, tally.getUserId());
+			publicStats(tally.getUserId());
 		}
 		return appendId;
+	}
+
+	private void publicStats(Integer userId) {
+		SetTally setTally=new SetTally();
+		setTally.setUserId(userId);
+		Thread thread = new Thread(setTally);
+		thread.start();
 	}
 
 	public int delete(Integer id, Integer userId) {
 		int appendId = tallyMapper.delete(id, userId);
 		if (appendId > 0) {
-			summaryService.dailyConsumptionYear(null, userId);
+			publicStats(userId);
 		}
 		return appendId;
 	}
@@ -87,7 +90,7 @@ public class TallyServiceImpl extends Base implements TallyService {
 	public int update(Tally tally) {
 		int appendId = tallyMapper.update(tally);
 		if (appendId > 0) {
-			summaryService.dailyConsumptionYear(null, tally.getUserId());
+			publicStats(tally.getUserId());
 		}
 		return appendId;
 	}
