@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.xiaoyu.common.Constants;
+import cn.xiaoyu.entity.thread.SetTally;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -66,7 +67,11 @@ public class TallyServiceImpl extends Base implements TallyService {
 	public int append(Tally tally) {
 		int appendId = tallyMapper.append(tally);
 		if (appendId > 0) {
-			summaryService.dailyConsumptionYear(null, tally.getUserId());
+			SetTally setTally=new SetTally();
+			setTally.setUserId(tally.getUserId());
+			Thread thread = new Thread(setTally);
+			thread.start();
+//			summaryService.dailyConsumptionYear(null, tally.getUserId());
 		}
 		return appendId;
 	}
