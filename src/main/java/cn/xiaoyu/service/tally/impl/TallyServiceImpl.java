@@ -227,7 +227,7 @@ public class TallyServiceImpl extends Base implements TallyService {
 	 * 明细数据 yearAllExport中抽离
 	 * 
 	 */
-	public void theDetailExport(int year, HSSFCellStyle style, HSSFWorkbook wb) {
+	public void theDetailExport(int year,int userId, HSSFCellStyle style, HSSFWorkbook wb) {
 		// 每次明细消费数据
 		List<String> headerList2 = new ArrayList<>();
 		headerList2.add("日期");
@@ -243,7 +243,7 @@ public class TallyServiceImpl extends Base implements TallyService {
 			row2.createCell(i).setCellValue(header2[i]);
 			row2.setRowStyle(style);
 		}
-		List<Tally> tall = this.list(new Tally());
+		List<Tally> tall=tallyMapper.listByYear(year,userId);
 		if (tall.size() != 0) {
 			for (int i = 0; i < tall.size(); i++) {
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -374,7 +374,7 @@ public class TallyServiceImpl extends Base implements TallyService {
 		HSSFCellStyle style = wb.createCellStyle();
 		int year = Integer.valueOf(DateUtil.getSysYear()).intValue() - 1;  //当前年 - 1
 		// 明细消费数据
-		this.theDetailExport(year, style, wb);
+		this.theDetailExport(year,userId, style, wb);
 		// 年度每天消费钱数数
 		this.dailyConsumptionSun(userId, year, style, wb);
 		// 月汇总

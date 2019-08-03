@@ -2,6 +2,7 @@ package cn.xiaoyu.test;
 
 import java.util.List;
 
+import cn.xiaoyu.common.Base;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,7 @@ import cn.xiaoyu.entity.tally.Income;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MethodsTest {
-
-	@Autowired
-	private IncomeMapper incomeMapper;
+public class MethodsTest extends Base {
 
 	@Test
 	public void incomeDetails() {

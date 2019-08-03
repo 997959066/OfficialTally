@@ -178,5 +178,9 @@
 		ORDER BY
 			t.type ASC
 	</select>
+
+	<select id="listByYear" parameterType="map" resultMap="BaseResultMap">
+	 SELECT * FROM tally WHERE YEAR(createDate)=#{year} AND userId=#{userId}  ORDER BY createDate DESC
+	</select>
 </mapper>
 

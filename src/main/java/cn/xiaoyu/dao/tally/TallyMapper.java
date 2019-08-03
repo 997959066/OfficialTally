@@ -23,6 +23,8 @@ public interface TallyMapper{
     int update(Tally tally);
     //查询记账列表
     List<Tally> list(Tally tally);
+    //通过年查询数据集合
+    List<Tally> listByYear(@Param("year")Integer year,@Param("userId")Integer userId);
     //一段时间数据
     Tally theTotalAmount(@Param("startTime")String startTime,@Param("endTime")String endTime,@Param("used")String used,
     		@Param("userId")Integer userId);
