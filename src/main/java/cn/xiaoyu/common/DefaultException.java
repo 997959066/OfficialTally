@@ -17,7 +17,4 @@ public class DefaultException extends RuntimeException{
 		super(message, cause);
 	}
 
-	public DefaultException(Throwable cause) {
-		super(cause);
-	}
 }

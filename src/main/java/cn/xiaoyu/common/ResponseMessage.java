@@ -57,9 +57,6 @@ public class ResponseMessage implements Serializable{
     public void setCode(Integer code) {
         this.code = code;
     }
-	public TokenMessage getTokenMessage() {
-		return tokenMessage;
-	}
 	public void setTokenMessage(TokenMessage tokenMessage) {
 		this.tokenMessage = tokenMessage;
 	}

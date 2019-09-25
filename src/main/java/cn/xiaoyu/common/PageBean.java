@@ -4,8 +4,12 @@ package cn.xiaoyu.common;
  * xiaoyu
  */
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+@Getter
+@Setter
 public class PageBean<T> {
     // 当前页
     private Integer pageNo = 1;
@@ -36,65 +40,4 @@ public class PageBean<T> {
         this.isMore = this.pageNo >= this.pageCount?0:1;
     }
 
- 
-
-    public Integer getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
- 
-    public Integer getRowCount() {
-		return rowCount;
-	}
-
-	public void setRowCount(Integer rowCount) {
-		this.rowCount = rowCount;
-	}
-
-	public Integer getIsMore() {
-        return isMore;
-    }
-
-    public void setIsMore(Integer isMore) {
-        this.isMore = isMore;
-    }
-
- 
-    public Integer getPageCount() {
-		return pageCount;
-	}
-
-	public void setPageCount(Integer pageCount) {
-		this.pageCount = pageCount;
-	}
-
-	public Integer getStartIndex() {
-        return startIndex;
-    }
-
-    public void setStartIndex(Integer startIndex) {
-        this.startIndex = startIndex;
-    }
-
-	public List<T> getList() {
-		return list;
-	}
-
-	public void setList(List<T> list) {
-		this.list = list;
-	}
-
- 
 }

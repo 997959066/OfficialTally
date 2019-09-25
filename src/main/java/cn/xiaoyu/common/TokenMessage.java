@@ -1,32 +1,18 @@
 package cn.xiaoyu.common;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
- 
+ @Getter
+ @Setter
 public class TokenMessage implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String g_token;
 	private String g_userId;
 	private String g_time;
-	public String getG_token() {
-		return g_token;
-	}
-	public void setG_token(String g_token) {
-		this.g_token = g_token;
-	}
-	public String getG_userId() {
-		return g_userId;
-	}
-	public void setG_userId(String g_userId) {
-		this.g_userId = g_userId;
-	}
-	public String getG_time() {
-		return g_time;
-	}
-	public void setG_time(String g_time) {
-		this.g_time = g_time;
-	}
 
 	@Override
 	public String toString() {

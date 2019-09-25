@@ -17,8 +17,6 @@ public enum MessageCode {
 	private Integer code;
 	private String value;
 
-	MessageCode() {
-	}
 
 	MessageCode(String value, Integer code) {
 		this.value = value;
