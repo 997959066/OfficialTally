@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xiaoyu.dao.tally.LoanMapper">
+
+	<resultMap type="cn.xiaoyu.entity.tally.Loan" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="money" column="money" />
+		<result property="name" column="name" />
+		<result property="record" column="record" />
+		<result property="mode" column="mode" />
+		<result property="settlement" column="settlement" />
+		<result property="userId" column="userId" />
+		<result property="createDate" column="createDate" />
+		<result property="updateDate" column="updateDate" />
+	</resultMap>
+
+	<sql id="tableName">
+		loan
+	</sql>
+
+	<select id="list" parameterType="map" resultMap="BaseResultMap">
+		select * from <include refid="tableName" /> where 1=1
+		<if test="id != null and id > -1 ">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != '' ">
+			and name = #{name}
+		</if>
+		<if test="mode != null">
+			and mode  =#{mode}
+		</if>
+		<if test="settlement != null">
+			and settlement  =#{settlement}
+		</if>
+		<if test="userId != null">
+			and userId  =#{userId}
+		</if>
+		order by createDate desc
+	</select>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="map">
+		delete from
+		<include refid="tableName" />
+		where id=#{id}
+	</delete>
+
+	<!-- 修改  -->
+	<update id="update" parameterType="cn.xiaoyu.entity.tally.Loan">
+		update
+		<include refid="tableName" />
+		<set>
+			<if test="id != null and id > -1 ">
+				id = #{id},
+			</if>
+			<if test="name != null and name != '' ">
+				name = #{name},
+			</if>
+			<if test="money != null ">
+				money = #{money},
+			</if>
+			<if test="record != null and record != ''">
+				 record  =#{record},
+			</if>
+			<if test="mode != null">
+				 mode  =#{mode},
+			</if>
+			<if test="settlement != null">
+			 settlement  =#{settlement},
+			</if>
+			<if test="userId != null">
+				userId  =#{userId}
+			</if>
+		</set>
+		where id=#{id}
+
+	</update>
+
+<!--标记 -->
+	<update id="settlement" parameterType="map">
+		update
+		<include refid="tableName" />
+		<set>
+			<if test="id != null and id > -1 ">
+				id = #{id},
+			</if>
+			<if test="settlement != null">
+			  settlement  =#{settlement}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 增加 -->
+	<insert id="append" parameterType="cn.xiaoyu.entity.tally.Tally">
+		insert into
+		<include refid="tableName" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id > -1 ">
+				id,
+			</if>
+			createDate,
+			<if test="name != null and name != '' ">
+				name,
+			</if>
+			<if test="money != null ">
+				money,
+			</if>
+			<if test="record != null and record != ''">
+				record,
+			</if>
+			<if test="mode != null">
+				mode,
+			</if>
+			<if test="settlement != null">
+				 settlement,
+			</if>
+			<if test="userId != null">
+			  userId
+			</if>
+		</trim>
+		<trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id > -1 ">
+				#{id},
+			</if>
+			<choose>
+				<when test="createDate != null and createDate != '' ">
+					#{createDate},
+				</when>
+				<otherwise>
+					now(),
+				</otherwise>
+			</choose>
+			<if test="name != null and name != '' ">
+				#{name},
+			</if>
+			<if test="money != null ">
+				#{money},
+			</if>
+			<if test="record != null and record != ''">
+				#{record},
+			</if>
+			<if test="mode != null">
+				#{mode},
+			</if>
+			<if test="settlement != null">
+				#{settlement},
+			</if>
+			<if test="userId != null">
+				#{userId}
+			</if>
+		</trim>
+	</insert>
+
+</mapper>
+

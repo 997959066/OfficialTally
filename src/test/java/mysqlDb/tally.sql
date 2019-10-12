@@ -20,6 +20,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for income
 -- ----------------------------
+
+CREATE TABLE `loan`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+	`name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名字',
+  `money` decimal(12, 4) DEFAULT NULL COMMENT '钱数',
+  `record` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '备忘记录',
+	`mode` int(12) DEFAULT NULL COMMENT '方式  0 借出  1 借进',
+	`settlement` int(12) DEFAULT NULL COMMENT '结算  0 未结算  1 已结算',
+	 `userId` int(11) DEFAULT NULL,
+  `createDate` datetime(0) DEFAULT CURRENT_TIMESTAMP COMMENT '建立时间',
+  `updateDate` datetime(0) DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+
+
 DROP TABLE IF EXISTS `income`;
 CREATE TABLE `income`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,

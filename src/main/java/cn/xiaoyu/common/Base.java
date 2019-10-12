@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.xiaoyu.dao.tally.*;
+import cn.xiaoyu.service.tally.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +22,11 @@ import com.alibaba.fastjson.JSONObject;
 import cn.xiaoyu.dao.system.MenuMapper;
 import cn.xiaoyu.dao.system.RoleMapper;
 import cn.xiaoyu.dao.system.UserMapper;
-import cn.xiaoyu.dao.tally.ConsumeTypeMapper;
-import cn.xiaoyu.dao.tally.IncomeMapper;
-import cn.xiaoyu.dao.tally.SummaryMapper;
-import cn.xiaoyu.dao.tally.TallyMapper;
 import cn.xiaoyu.entity.system.User;
 import cn.xiaoyu.service.file.UploadOrDownloadService;
 import cn.xiaoyu.service.system.MenuService;
 import cn.xiaoyu.service.system.RoleService;
 import cn.xiaoyu.service.system.UserService;
-import cn.xiaoyu.service.tally.ConsumeTypeService;
-import cn.xiaoyu.service.tally.IncomeService;
-import cn.xiaoyu.service.tally.SummaryService;
-import cn.xiaoyu.service.tally.TallyService;
 import cn.xiaoyu.util.DateUtil;
 
 public class Base {
@@ -122,6 +116,8 @@ public class Base {
     protected UserService userService;
     @Autowired
     protected ConsumeTypeService consumeTypeService;
+    @Autowired
+    protected LoanService loanService;
     //tally Mapper
     @Autowired
     protected TallyMapper tallyMapper;
@@ -138,6 +134,8 @@ public class Base {
     protected UserMapper userMapper;
     @Autowired
     protected ConsumeTypeMapper consumeTypeMapper;
+    @Autowired
+	protected LoanMapper loanMapper;
     
     
 	public ResponseMessage responseMessage(MessageCode code, Object data) {
