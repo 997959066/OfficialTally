@@ -1,9 +1,7 @@
 package cn.xiaoyu.controller.system;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.xiaoyu.common.Base;
 import cn.xiaoyu.common.MessageCode;
@@ -21,7 +19,8 @@ public class RoleController extends Base {
 
   
 
-    @RequestMapping(value = "/listByPage", method = RequestMethod.GET)
+
+    @GetMapping(value = "/listByPage")
     public ResponseMessage listByPage(Role  role,Integer pageNo,Integer pageSize){
         try { 
         	PageBean<Role> result = roleService.listByPage(role,pageNo,pageSize);
@@ -32,7 +31,7 @@ public class RoleController extends Base {
     }
 
     //查询列表
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping(value = "/list")
     public ResponseMessage list(Role role){
         try { 
             List<Role> result = roleService.list(role);
@@ -42,7 +41,7 @@ public class RoleController extends Base {
         }
     }
     //根据id查询
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @GetMapping(value = "/get")
     public ResponseMessage get(Integer id){
         try { 
             Role role = roleService.get(id);
@@ -53,7 +52,7 @@ public class RoleController extends Base {
     }
 
     //增加
-    @RequestMapping(value = "/append", method = RequestMethod.POST)
+    @PostMapping(value = "/append")
     public ResponseMessage addRole(Role role){
         try { 
             roleService.append(role);
@@ -64,7 +63,7 @@ public class RoleController extends Base {
     }
 
     //修改
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PostMapping(value = "/update")
     public ResponseMessage updateRole(Role role){
         try { 
             roleService.update(role);
@@ -75,7 +74,7 @@ public class RoleController extends Base {
     }
 
     //删除
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @PostMapping(value = "/delete")
     public ResponseMessage delRole(Role role){
         try { 
             roleService.delete(role);

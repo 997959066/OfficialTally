@@ -68,11 +68,11 @@ public class LoginController extends Base {
 	@PostMapping("/registeredUser")
     public ResponseMessage addUser(User user){
         try { 
-           int  returnId =userService.append(user);
-			if(returnId<=0){
+           int  returnIds =userService.append(user);
+			if(returnIds<=0){
 				return responseMessage(MessageCode.DB_OPERATION_ROWS_ZERO, "没有成功增加，可能已有该用户");
 			}
-            return new ResponseMessage(MessageCode.SUCCESS,returnId);
+            return new ResponseMessage(MessageCode.SUCCESS,returnIds);
         } catch (Exception e){ 
             return new ResponseMessage(MessageCode.UNKNOWN_ERROR, e.getMessage());
         }
