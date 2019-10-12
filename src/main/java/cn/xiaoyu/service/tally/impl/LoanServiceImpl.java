@@ -25,8 +25,8 @@ public class LoanServiceImpl extends Base implements LoanService {
     }
 
     @Override
-    public int settlement(int id,int tag) {
-        return loanMapper.settlement(id,tag);
+    public int settlement(int id, int tag) {
+        return loanMapper.settlement(id, tag);
     }
 
     @Override
